@@ -48,6 +48,8 @@ class Item(models.Model):
         for entry in costquerry:
             addcost += entry.cost
         totalcost = self.boughtprice + addcost
+        if self.category == None:
+            return totalcost
         endprice = totalcost * (1 + (self.category.profitmargin / 100))
         endprice = round(endprice,2)
         return endprice
