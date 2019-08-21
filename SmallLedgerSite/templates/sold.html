@@ -1,0 +1,25 @@
+{% extends "list.html" %}
+
+{% block headersblock %}
+<th>ID</th>
+<th>Category</th>
+<th>Name</th>
+<th>Profit</th>
+<th class="hidephone">Sold Date</th>
+<th>Options</th>
+{% endblock %}
+
+{% block bodyblock %}
+{% for i in items %}
+                                        <tr>
+                                                <td>{{ i.id }}</td>
+						<td>{{ i.category }}</td>
+                                                <td>{{ i.name }}</td>
+                                                <td style="{% if i.CalculateProfit < 0 %}color:red; {%else%} color:green; {%endif%}">{{ i.CalculateProfit }}</td>
+                                                <td class="hidephone">{{ i.solddate }}</td>
+                                                <td>
+                                                        <a href="{% url 'viewitem' i.id %}" class="btn btn-info btn-sm" >info</a>
+                                                </td>
+                                        </tr>
+                                {% endfor %}
+{% endblock %}

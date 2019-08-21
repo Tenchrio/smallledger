@@ -1,0 +1,39 @@
+{% extends "list.html" %}
+
+{% block initblock %}
+        <script type="text/javascript" class"init">
+        $(document).ready(function() {
+        $('#target').DataTable();
+        } );
+        </script>
+{% endblock %}
+
+
+
+{% block extramenublock %}
+<div class="row">
+<a class="btn btn-success btn-md col-md-4 col-sm-12" href="{% url 'addcategory' %}"><i class="fa fa-plus-circle"></i>  Add category</a>
+</div>
+<br>
+{% endblock%}
+
+{% block headersblock %}
+<th>ID</th>
+<th>Name</th>
+<th>Profitmargin</th>
+<th>Options</th>
+{% endblock %}
+
+{% block bodyblock %}
+{% for i in categories %}
+                                        <tr>
+                                                <td>{{ i.id }}</td>
+                                                <td>{{ i.name }}</td>
+                                                <td >{{ i.profitmargin }}</td>
+                                                <td>
+                                                        <a href="{% url 'editcategory' i.id %}" class="btn btn-warning btn-sm" >edit</a>
+                                                </td>
+                                        </tr>
+{% endfor %}
+
+{% endblock%}

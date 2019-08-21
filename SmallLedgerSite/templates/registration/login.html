@@ -1,0 +1,7 @@
+<center><h2>Login</h2><center>
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input class="btn btn-primary btn-lg btn-block" type="submit" value"Submit">
+</form>

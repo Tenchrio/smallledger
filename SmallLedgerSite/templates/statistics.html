@@ -1,0 +1,48 @@
+{% extends "index.html" %}
+
+{% block initblock %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+{% endblock %}
+
+
+{% block content %}
+<h2>Statistics</h2>
+<canvas id="myChart" width="1600" height="900"></canvas>
+
+<script type="text/javascript"> 
+var ctx = document.getElementById("myChart");
+var myLineChart = new Chart.Line(ctx, {
+	data: {
+		labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+		datasets: [{
+			label: "Sold",
+			borderColor: 'rgba(0,255,0,1)',
+			backgroundColor: 'rgba(0,255,0,1)',
+			fill:false,
+			data:[10,20,10,40,20,20],
+			yAxisID: 'y-axis-1'},
+			/*{
+				label: "Bought",
+				borderColor: 'rgba(255,0,0,1)',
+                        	backgroundColor: 'rgba(255,0,0,1)',
+                        	fill:false,
+                        	data:[10,20,10,40,20,20,10,10,20,12,23,18],
+                        	yAxisID: 'y-axis-2',
+
+			},
+			{
+                                label: "Profitmargin",
+                                borderColor: 'rgba(0,0,255,1)',
+                                backgroundColor: 'rgba(0,0,0,1)',
+                                fill:false,
+                                data:[10,20,10,40,20,20,10,10,20,12,23,18],
+                                yAxisID: 'y-axis-3',
+
+                        }*/
+		]
+	}
+});
+</script>
+
+{% endblock %}

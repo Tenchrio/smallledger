@@ -1,0 +1,132 @@
+{% extends "index.html" %}
+
+{% block content %}
+<style>
+@media (min-width:768px){
+	.row{
+		margin:1px;
+	}
+}
+@media (max-width:768px){
+	.row{
+		padding:1px;
+	}
+	.infodata{
+		background-color:lightgrey;
+	}
+}
+</style>
+<center><h1>Detail View</h1></center>
+<br>
+<div class="row">
+	<div class="col-md-4 col-sm-12">
+		<a href="{% url 'edititem' object.id %}" class="btn btn-primary btn-block"><i class="fa fa-pencil-square-o"></i>  Edit</a>
+	</div>
+	<form class="col-md-4 col-sm-12" action="{% url 'deleteitem' object.id %}" method="post">
+	{% csrf_token %}
+	<button type="submit" class="btn btn-danger btn-block"><i class="fa fa-trash"></i>  delete</button>
+	</form>
+</div>
+<br>
+<div class="row">
+<div class = "col-sm-4">
+	{% if object.image != None %}
+	<img src="{{ object.image.url }}" width="100%">
+	{% else %}
+	<p>No image</p>
+	{% endif %}
+</div>
+<div class = "col-sm-8">
+	<div class="row">
+		<h3 class="col-sm-4">ID:</h3>
+		<h3 class="col-sm-8 infodata">{{ object.id }}</h3>
+	</div>
+	<div class="row">	
+		<h3 class="col-sm-4">Name:</h3>
+		<h3 class="col-sm-8 infodata">{{ object.name }}</h3>
+	</div>
+	<div class="row">
+		<h3 class="col-sm-4">Category:</h3>
+		<h3 class="col-sm-8 infodata">{{ object.category }}</h3>
+	</div>
+	<div class="row">
+		<h3 class="col-sm-4">Serial Number:</h3>
+		<h3 class="col-sm-8 infodata">{{ object.serialnumber }}</h3>
+	</div>
+	<div class="row">
+		<h3 class="col-sm-4">Extra Information:</h3>
+		<h3 class="col-sm-8 infodata">{{ object.extrainformation }}</h3>
+	</div>
+	<div class="row">
+		<h3 class="col-sm-4">Bought Price:</h3>
+		<h3 class="col-sm-8 infodata">{{ object.boughtprice }}</h3>
+	</div>
+	<div class="row">
+		<h3 class="col-sm-4">Bought Date:</h3>
+		<h3 class="col-sm-8 infodata">{{ object.boughtdate }}</h3>
+	</div>
+	<div class="row">
+		<h3 class="col-sm-4">Own usage:</h3>
+		<h3 class="col-sm-8 infodata">{{ object.ownusage }}</h3>
+	</div>
+
+	{% if object.soldprice == None %}
+	<div class="row">
+		<h3 class="col-sm-4">Suggested sell price:</h3>
+		<h3 class="col-sm-8 infodata">{{ object.CalculateSuggestedSalesPrice}}</h3>
+	</div>
+	{% else %}
+	<div class="row">
+		<h3 class="col-sm-4">Sold Price:</h3>
+		<h3 class="col-sm-8 infodata">{{ object.soldprice }}</h3>
+	</div>
+	<div class="row">
+		<h3 class="col-sm-4">Sold Date:</h3>
+		<h3 class="col-sm-8 infodata">{{ object.solddate }}</h3>
+	</div>
+	<div class="row">
+		<h3 class="col-sm-4">Profit:</h3>
+		<h3 class="col-sm-8 infodata">{{ object.CalculateProfit }}</h3>
+	</div>
+</div>
+</div>
+
+{% endif %}
+<br>
+<div class="row">
+	<h3>Added costs (total: {{ object.CalculateAddedCost }} ): </h3>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Information</th>
+					<th>Cost</th>
+					<th>Delete</th>
+				</tr>
+			</thead>
+			{% for ac in object.extracost_set.all %}
+				<tr>
+					<td>{{ ac.information }}</td>
+					<td>{{ ac.cost }}</td>
+					<td>
+						{% if object.soldprice == None %} 
+						<form action="{% url 'deletecost' ac.id %}" method="post">
+							{% csrf_token %}
+							<input class="btn btn-danger" type="Submit" value="Delete">
+						</form>
+						{% endif %}
+					</td>
+				</tr>
+			{% endfor %}
+		</table>
+	</div>
+</div>
+<div class="row">
+	{% if object.soldprice == None %}
+	<a href="{% url 'addcosttoitem' object.id%}" class="btn btn-success btn-block">Add cost</a>
+	{% endif %}
+</div>
+
+{% endblock %}

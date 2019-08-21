@@ -1,0 +1,43 @@
+{% extends "index.html" %}
+
+{% block content %}
+	<style>
+	.list-group-hover .list-group-item:hover {
+    		background-color: #f5f5f5;
+	}
+	@media (max-width:768px){
+		.hidephone{
+			display:none;
+		}
+		h1 {
+			text-align:center;
+		}
+	}
+	@media (min-width:768px){
+		body{
+			margin-left:20px;
+		}
+	}
+	</style>
+	<h1>{{ title }}</h1>
+	<br>
+	{% block extramenublock %}
+	{% endblock %}
+	<div class="row">
+	<div class="col-md-12 table-responsive">
+		<table id="target" class="table table-hover" style="width:100%;">
+			<thead>
+				<tr>
+					{% block headersblock %}
+					{% endblock %}
+				</tr>
+
+			</thead>
+			<tbody>
+				{% block bodyblock %}
+				{% endblock %}
+			</tbody>
+		</table>
+	</div>
+	</div>
+{% endblock %}
