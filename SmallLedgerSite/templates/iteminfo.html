@@ -30,7 +30,7 @@
 <br>
 <div class="row">
 <div class = "col-sm-4">
-	{% if object.image != None %}
+	{% if object.image.url != None %}
 	<img src="{{ object.image.url }}" width="100%">
 	{% else %}
 	<p>No image</p>
