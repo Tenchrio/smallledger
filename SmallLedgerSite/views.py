@@ -12,7 +12,11 @@ def index(request):
 def stock(request):
     items = Item.objects.filter(soldprice = None).order_by('id')
     title="Stock"
-    return render(request,'stock.html',{'title':title,'items':items})
+    madeid=0
+    if 'madeid' in request.session:
+        madeid = request.session['madeid']
+        del request.session['madeid']
+    return render(request,'stock.html',{'title':title,'items':items,'madeid':madeid})
 
 @login_required
 def sold(request):
@@ -38,7 +42,7 @@ def addcategory(request):
             return redirect(category)
     else:
         form = CategoryForm()    
-    return render(request,'form.html',{'title':"Add Category",'form':form,'madeid':madeid,'succmessage':"added a category"})
+    return render(request,'form.html',{'title':"Add Category",'form':form})
 
 @login_required
 def additem(request):
@@ -47,10 +51,11 @@ def additem(request):
         form = ItemForm(request.POST,request.FILES)
         if form.is_valid():
             newitem = form.save()
-            madeid = newitem.id
+            request.session['madeid'] = newitem.id
+            return redirect(stock)
     else:
         form = ItemForm()
-    return render(request,'form.html',{'title':"Add Item",'form':form,'madeid':madeid,'succmessage':"added an item"})
+    return render(request,'form.html',{'title':"Add Item",'form':form})
 
 @login_required
 def viewitem(request,item_id):
@@ -84,7 +89,8 @@ def sellitem(request,item_id):
             relitem.solddate = form.cleaned_data['solddate']
             relitem.save()
             form = None
-            madeid = relitem.id
+            request.session['madeid'] = relitem.id
+            return redirect(sold)
     else:
         form=SellForm()
     return render(request,'form.html',{'form':form,'title':"Sell item " + relitem.name,'madeid':madeid,'succmessage':' sold item with name ' + relitem.name})

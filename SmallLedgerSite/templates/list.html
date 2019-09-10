@@ -1,6 +1,9 @@
 {% extends "index.html" %}
 
 {% block content %}
+{% if not madeid == 0 %} 
+<div class="alert alert-success">Succesfully made item with, id {{ madeid }}</div>
+{%endif%}
 	<style>
 	.list-group-hover .list-group-item:hover {
     		background-color: #f5f5f5;
